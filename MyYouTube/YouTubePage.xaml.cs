@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using MyToolkit.Multimedia;
+using Microsoft.Phone.Shell;
 
 namespace MyYouTube
 {
@@ -41,6 +42,12 @@ namespace MyYouTube
 
         private void YoutubePageLoaded(object sender, RoutedEventArgs e)
         {
+            if (PhoneApplicationService.Current.State["YoutubeItem"] != null)
+            {
+                var youtubeItem = PhoneApplicationService.Current.State["YoutubeItem"] as YoutubeItem;
+                txtTitle.Text = "Title: " + youtubeItem.Title;
+                txtViewCount.Text = "Views: " + youtubeItem.ViewCount;
+            }
             youTubePlayer.YouTubeID = this.NavigationContext.QueryString["VideoId"].ToString();
             Model.IsLoading = true;                 
         }

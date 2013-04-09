@@ -56,5 +56,18 @@ namespace MyYouTube
                 NotifyPropertyChanged("ThumbNailUrl");
             }
         }
+
+        private string _viewCount;
+        public string ViewCount
+        {
+            get { return _viewCount; }
+            set
+            {
+                if (_viewCount == value)
+                    return;
+                _viewCount = value;
+                NotifyPropertyChanged("ViewCount");
+            }
+        }
     }
 }

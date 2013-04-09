@@ -25,25 +25,23 @@
     
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="126"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.Background>
-            <ImageBrush Stretch="UniformToFill" Opacity="0.95" >
-                <ImageBrush.ImageSource>
-                    <BitmapImage UriSource="Images/MyTube-BackGround.png" />
-                </ImageBrush.ImageSource>
-            </ImageBrush>
-        </Grid.Background>
-       
+             
         <UI:ProgressIndicatorProxy IsVisible="{Binding IsLoading}" IsIndeterminate="True" />
         
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28"/>
 
-        <usercontrols:YouTubeButton x:Name="youTubePlayer" Margin="-10,5,10,255" Click="OnPlay" Grid.Row="1" />
-        <StackPanel Grid.Row="0" >
-            <Image Height="116" Source="/Images/MyTube-Logo2.png" Margin="0,0,97,0"/>
+        <usercontrols:YouTubeButton x:Name="youTubePlayer" Margin="-10,0,-12,0" Click="OnPlay" Grid.Row="2" Height="358" VerticalAlignment="Top" />
+        <StackPanel Grid.Row="0"  >
+            <Image Height="116" Source="/Images/MyTube-Logo2.png" Margin="0,0,108,0"/>
         </StackPanel>
+
+        <TextBlock x:Name="txtTitle" Text="Title:" HorizontalAlignment="Left" Margin="0,369,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top"  RenderTransformOrigin="0.534,1.468" Height="27" Width="470"/>
+
+        <TextBlock x:Name="txtViewCount" Text="ViewCount:" HorizontalAlignment="Left" Margin="0,410,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top"  RenderTransformOrigin="0.534,1.468" Height="27" Width="470"/>
 
     </Grid>
 </phone:PhoneApplicationPage>

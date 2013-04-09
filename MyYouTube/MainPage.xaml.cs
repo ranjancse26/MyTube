@@ -47,9 +47,14 @@ namespace MyYouTube
                 XDocument xdoc = XDocument.Load(tr);
                 XNamespace xmlns = "http://www.w3.org/2005/Atom";
                 XNamespace media = "http://search.yahoo.com/mrss/";
+                XNamespace gd = "http://schemas.google.com/g/2005";
+                XNamespace yt = "http://gdata.youtube.com/schemas/2007";
+
                 var items = xdoc.Root.Descendants("item").AsEnumerable();
                 foreach(var item in items){
                     var grp = item.Descendants(media + "group");
+                    var ytNode = item.Descendants(yt + "statistics");
+
                     youtubeItemsList.Add(new YoutubeItem
                     {
                         Title = (string)grp.Elements(media + "title").First().Value,
@@ -58,6 +63,7 @@ namespace MyYouTube
                         ThumbNailUrl = new Uri(grp.Elements(media + "thumbnail")
                             .Select(u => (string)u.Attribute("url"))
                             .First()),
+                        ViewCount = (string)ytNode.Attributes("viewCount").First().Value 
                     });
                 }
 
@@ -67,6 +73,9 @@ namespace MyYouTube
 
         private void ImageClick(object sender, RoutedEventArgs e)
         {
+            YoutubeItem data = (sender as Button).DataContext as YoutubeItem;
+            PhoneApplicationService.Current.State["YoutubeItem"] = data;
+
             var tag = ((Button)sender).Tag;
             int indexOfEqual = tag.ToString().IndexOf("=");
             var id = tag.ToString().Substring(indexOfEqual + 1, (tag.ToString().IndexOf("&") -1) - indexOfEqual);   
