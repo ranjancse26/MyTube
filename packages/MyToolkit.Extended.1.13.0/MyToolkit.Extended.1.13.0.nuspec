@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MyToolkit.Extended</id>
+    <version>1.13.0</version>
+    <title>MyToolkit.Extended</title>
+    <authors>Rico Suter</authors>
+    <owners>Rico Suter</owners>
+    <projectUrl>http://mytoolkit.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Website: mytoolkit.codeplex.com</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <dependencies>
+      <group targetFramework="WindowsPhone7.1">
+        <dependency id="WPtoolkit" version="4.2012.10.30" />
+        <dependency id="MyToolkit" version="1.13.0" />
+      </group>
+      <group targetFramework="WindowsPhone8.0">
+        <dependency id="WPtoolkit" version="4.2012.10.30" />
+        <dependency id="MyToolkit" version="1.13.0" />
+      </group>
+    </dependencies>
+    <references>
+      <reference file="MyToolkit.Extended.dll" />
+    </references>
+  </metadata>
+</package>

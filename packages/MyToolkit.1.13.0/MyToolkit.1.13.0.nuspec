@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MyToolkit</id>
+    <version>1.13.0</version>
+    <title>MyToolkit</title>
+    <authors>Rico Suter</authors>
+    <owners>Rico Suter</owners>
+    <projectUrl>http://mytoolkit.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Website: mytoolkit.codeplex.com</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <references>
+      <reference file="MyToolkit.dll" />
+    </references>
+  </metadata>
+</package>
