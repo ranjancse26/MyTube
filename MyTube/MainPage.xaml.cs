@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.Collections.ObjectModel;
 using MyToolkit.Multimedia;
 using System.ComponentModel;
-using System.Windows.Media.Imaging;
+using Coding4Fun.Phone.Controls;
 
 namespace MyYouTube
 {
@@ -66,7 +62,6 @@ namespace MyYouTube
                         ViewCount = (string)ytNode.Attributes("viewCount").First().Value 
                     });
                 }
-
                 listBox.ItemsSource  = youtubeItemsList;
             }
         }
@@ -76,9 +71,9 @@ namespace MyYouTube
             YoutubeItem data = (sender as Button).DataContext as YoutubeItem;
             PhoneApplicationService.Current.State["YoutubeItem"] = data;
 
-            var tag = ((Button)sender).Tag;
-            int indexOfEqual = tag.ToString().IndexOf("=");
-            var id = tag.ToString().Substring(indexOfEqual + 1, (tag.ToString().IndexOf("&") -1) - indexOfEqual);   
+            string url = data.PlayerUrl;
+            int indexOfEqual = url.IndexOf("=");
+            var id = url.Substring(indexOfEqual + 1, (url.IndexOf("&") - 1) - indexOfEqual);   
             this.NavigationService.Navigate(new Uri(string.Format("/YouTubePage.xaml?VideoId={0}", id), UriKind.Relative));
         }
 
@@ -96,6 +91,20 @@ namespace MyYouTube
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void AboutApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            AboutPrompt about = new AboutPrompt();
+            about.Title = "About";
+            about.VersionNumber = "Version 1.0";
+            about.Body = new TextBlock { Text = "Designed and Developed by OpenSource Team - BDotNet", TextWrapping = TextWrapping.Wrap };
+            about.Show();
+        }
+
+        private void SettingsApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

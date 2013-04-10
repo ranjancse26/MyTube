@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyYouTube", "MyYouTube\MyYouTube.csproj", "{81027546-8F35-4BB1-A479-1C8635ACD195}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTube", "MyTube\MyTube.csproj", "{81027546-8F35-4BB1-A479-1C8635ACD195}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeLib", "YoutubeLib\YoutubeLib.csproj", "{30DDFCC7-2B4E-4B30-B1F9-352D8CEFAA5D}"
 EndProject
