@@ -16,8 +16,8 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="181"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0"  >
@@ -25,12 +25,13 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="-73,10,97,-10">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="-79,56,97,-10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="197*"/>
-                <ColumnDefinition Width="259*"/>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="153*"/>
+                <ColumnDefinition Width="109*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="txtSearchResultsCount" HorizontalAlignment="Left" Height="66" Margin="88,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="85" Grid.Column="1">
+            <TextBox x:Name="txtSearchResultsCount" HorizontalAlignment="Left" Height="75" Margin="20,-55,-29,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="118" Grid.Column="2">
                 <TextBox.InputScope>
                     <InputScope>
                         <InputScopeName NameValue="Number"/>
@@ -38,7 +39,9 @@
                 </TextBox.InputScope>
             </TextBox>
         </Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="10,24,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Number of Results:" VerticalAlignment="Top" Width="235" FontSize="24"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,19,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Number of Search Results:" VerticalAlignment="Top" Width="295" FontSize="24" Height="32"/>
+        <Rectangle Fill="#FFF4F4F5" Height="59" Margin="10,122,10,0" Stroke="Black" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="24,138,0,0" TextWrapping="Wrap" Text="General Settings" VerticalAlignment="Top" Foreground="#FF0E0D0D" Height="33" Width="180"/>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>

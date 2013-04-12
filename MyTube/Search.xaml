@@ -32,7 +32,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Margin="10,0,0,0"  />
                         <Button Tag="{Binding PlayerUrl}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ImageClick" >
                             <StackPanel>
                                 <Image Height="300" Width="500">
@@ -47,7 +47,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBox Background="#FFF6F9F9" x:Name="txtSearch" Height="79" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Margin="-13,19,48,0" BorderBrush="#BF0A0909" Foreground="#FF403B3B" Grid.Row="1"/>
+        <TextBox Background="#FFF6F9F9" x:Name="txtSearch" Height="79" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Margin="0,19,48,0" BorderBrush="#BF0A0909" Foreground="#FF403B3B" Grid.Row="1"/>
         <Button x:Name="btnSearch" Content="" VerticalAlignment="Top" Height="79"  Margin="409,19,-13,0" Click="Search" RenderTransformOrigin="1.139,0.486" BorderThickness="0" Grid.Row="1" >
             <Button.Background>
                 <ImageBrush ImageSource="/Images/search.png" />
