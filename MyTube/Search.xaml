@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="MyYouTube.MainPage"
+    x:Class="MyYouTube.SearchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -13,24 +13,22 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     xmlns:usercontrols="clr-namespace:MyYouTube"
-    shell:SystemTray.IsVisible="False" Loaded="MainPageLoaded">  
+    shell:SystemTray.IsVisible="False" Loaded="SearchPageLoaded">  
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="170"/>
-            <RowDefinition/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="65*"/>
+            <RowDefinition Height="244*"/>
         </Grid.RowDefinitions>
        
         <!--TitlePanel contains the name of the application and page title-->
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="39" Margin="0,112,0,0" Stroke="Black" VerticalAlignment="Top" Width="480"/>
-
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="0,0,0,43" >
+        <StackPanel Grid.Row="0" >
             <Image Height="109" Source="/Images/MyTube-Logo2.png" Margin="0,0,131,0"/>
         </StackPanel>
-
-        <ListBox x:Name="listBox" Grid.Row="1" >
+       
+        <ListBox Grid.Row="2" x:Name="listBox" Margin="0,10,0,-10">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -48,7 +46,13 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBlock HorizontalAlignment="Left" Margin="0,112,0,0" TextWrapping="Wrap" Text="Most Viewed Videos" VerticalAlignment="Top" Foreground="#FF0E0D0D" Height="27" Width="180"/>
+
+        <TextBox Background="#FFF6F9F9" x:Name="txtSearch" Height="79" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Margin="-13,19,48,0" BorderBrush="#BF0A0909" Foreground="#FF403B3B" Grid.Row="1"/>
+        <Button x:Name="btnSearch" Content="" VerticalAlignment="Top" Height="79"  Margin="409,19,-13,0" Click="Search" RenderTransformOrigin="1.139,0.486" BorderThickness="0" Grid.Row="1" >
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/search.png" />
+            </Button.Background>
+        </Button>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
@@ -59,10 +63,6 @@
             <shell:ApplicationBarIconButton IconUri="/Images/settings.png"
                                             Click="SettingsApplicationBarIconButton_Click"
                                             Text="Settings"/>
-
-            <shell:ApplicationBarIconButton IconUri="/Images/search.png"
-                                            Click="SearchApplicationBarIconButton_Click"
-                                            Text="Search"/>
         </shell:ApplicationBar>
 
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -15,30 +15,16 @@ using System.IO.IsolatedStorage;
 
 namespace MyYouTube
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class SearchPage : PhoneApplicationPage
     {
-        public MainPage()
+        public SearchPage()
         {
             InitializeComponent();
         }
 
-        private void MainPageLoaded(object sender, RoutedEventArgs e)
+        private void SearchPageLoaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-                int count = int.Parse(settings["SearchResultsCount"].ToString());
-
-                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?max-results={0}&alt=rss", count.ToString());
-                WebClient webClient = new WebClient();
-                webClient.AllowReadStreamBuffering = true;
-                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-                webClient.DownloadStringAsync(new Uri(requestUrl));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            txtSearch.Text = "";
         }
 
         protected override void OnBackKeyPress(CancelEventArgs e)
@@ -92,6 +78,25 @@ namespace MyYouTube
             this.NavigationService.Navigate(new Uri(string.Format("/YouTubePage.xaml?VideoId={0}", id), UriKind.Relative));
         }
 
+        private void Search(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+                int count = int.Parse(settings["SearchResultsCount"].ToString());
+
+                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/videos?max-results={0}&alt=rss&q={1}", count.ToString(), txtSearch.Text.Trim());
+                WebClient webClient = new WebClient();
+                webClient.AllowReadStreamBuffering = true;
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                webClient.DownloadStringAsync(new Uri(requestUrl));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void AboutApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             AboutPrompt about = new AboutPrompt();
@@ -104,11 +109,6 @@ namespace MyYouTube
         private void SettingsApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             this.NavigationService.Navigate(new Uri(string.Format("/Settings.xaml"), UriKind.Relative));
-        }
-
-        private void SearchApplicationBarIconButton_Click(object sender, EventArgs e)
-        {
-            this.NavigationService.Navigate(new Uri(string.Format("/Search.xaml"), UriKind.Relative));
         }
     }
 }

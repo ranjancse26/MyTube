@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.IO.IsolatedStorage;
 
 namespace MyYouTube
 {
@@ -57,6 +58,9 @@ namespace MyYouTube
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+            // Set the default values for our settings
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings["SearchResultsCount"] = 20;
         }
 
         // Code to execute when the application is launching (eg, from Start)

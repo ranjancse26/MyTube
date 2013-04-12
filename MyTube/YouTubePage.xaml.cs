@@ -4,6 +4,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using MyToolkit.Multimedia;
 using Microsoft.Phone.Shell;
+using System.Windows.Media;
 
 namespace MyYouTube
 {
@@ -11,10 +12,18 @@ namespace MyYouTube
 	{
         public YouTubePageViewModel Model { get { return (YouTubePageViewModel)Resources["viewModel"]; } }
 
+        public YouTubeQuality VideoQuality
+        {
+            get;
+            set;
+        }
+
 		public YouTubePage()
 		{
             InitializeComponent();
-            this.DataContext = this;                    
+            this.DataContext = this;
+            btnLowQuality.Background = new SolidColorBrush(Colors.Red);
+            VideoQuality = YouTubeQuality.Quality480P;    
 		}
                
 		protected override void OnBackKeyPress(CancelEventArgs e)
@@ -33,7 +42,7 @@ namespace MyYouTube
 		private void OnPlay(object sender, RoutedEventArgs args)
 		{
             var id = this.NavigationContext.QueryString["VideoId"].ToString();
-            YouTube.Play(id, true, YouTubeQuality.Quality720P, er =>
+            YouTube.Play(id, true, VideoQuality, er =>
             {
                 if (er != null)
                     MessageBox.Show(er.Message);
@@ -50,6 +59,34 @@ namespace MyYouTube
             }
             youTubePlayer.YouTubeID = this.NavigationContext.QueryString["VideoId"].ToString();
             Model.IsLoading = true;                 
+        }
+
+        private void btnLowQuality_Click(object sender, RoutedEventArgs e)
+        {
+            ResetButtonBackGroundColor();
+            btnLowQuality.Background = new SolidColorBrush(Colors.Red);
+            VideoQuality = YouTubeQuality.Quality480P;
+        }
+
+        private void ResetButtonBackGroundColor()
+        {
+            btnHighQuality.Background = new SolidColorBrush(Colors.Black);
+            btnHighDefQuality.Background = new SolidColorBrush(Colors.Black);
+            btnLowQuality.Background = new SolidColorBrush(Colors.Black);
+        }
+
+        private void btnHighQuality_Click(object sender, RoutedEventArgs e)
+        {
+            ResetButtonBackGroundColor();
+            btnHighQuality.Background = new SolidColorBrush(Colors.Red);
+            VideoQuality = YouTubeQuality.Quality720P;
+        }
+
+        private void btnHighDefQuality_Click(object sender, RoutedEventArgs e)
+        {
+            ResetButtonBackGroundColor();
+            btnHighDefQuality.Background = new SolidColorBrush(Colors.Red);
+            VideoQuality = YouTubeQuality.Quality1080P;
         }
 	}
 }
