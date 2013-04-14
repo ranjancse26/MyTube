@@ -174,7 +174,7 @@
     <Content Include="lib\Microsoft.Phone.Controls.Toolkit.dll" />
     <Content Include="lib\MyToolkit.dll" />
     <Content Include="lib\MyToolkit.Extended.dll" />
-    <Content Include="README_FIRST.txt" />
+    <Content Include="License.txt" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
