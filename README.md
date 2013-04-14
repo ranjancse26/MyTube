@@ -3,7 +3,8 @@ MyTube
 
 An YouTube Player for Windows Phone
 
-Copyright (c) 2013, Ranjan Dailata
+Copyright (c) 2013, Ranjan Dailata.
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without 
