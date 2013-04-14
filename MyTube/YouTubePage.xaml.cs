@@ -5,12 +5,22 @@ using Microsoft.Phone.Controls;
 using MyToolkit.Multimedia;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
+using System.Diagnostics;
 
-namespace MyYouTube
+/* © Ranjan Dailata [2013]
+ * All Rights Reserved
+ * No part of this sourcecode or any of its contents may be reproduced, copied, modified or adapted, without the prior written consent of the author, 
+ * unless otherwise indicated for stand-alone materials.
+*/
+
+namespace MyTube
 {
 	public partial class YouTubePage : PhoneApplicationPage
 	{
-        public YouTubePageViewModel Model { get { return (YouTubePageViewModel)Resources["viewModel"]; } }
+        int _pageNumber = 1;
+        CommentsViewModel _viewModel;
+        int _offsetKnob = 7;
+        YoutubeItem youtubeItem = null;
 
         public YouTubeQuality VideoQuality
         {
@@ -23,8 +33,33 @@ namespace MyYouTube
             InitializeComponent();
             this.DataContext = this;
             btnLowQuality.Background = new SolidColorBrush(Colors.Red);
-            VideoQuality = YouTubeQuality.Quality480P;    
+            VideoQuality = YouTubeQuality.Quality480P;
+
+            _viewModel = (CommentsViewModel)Resources["commentsViewModel"];
+            resultListBox.ItemRealized += resultListBox_ItemRealized;
+
+            if (PhoneApplicationService.Current.State["YoutubeItem"] != null)
+            {
+                youtubeItem = PhoneApplicationService.Current.State["YoutubeItem"] as YoutubeItem;
+                _pageNumber = 1;
+                _viewModel.LoadPage(youtubeItem.CommentsLink, _pageNumber++);
+            }
 		}
+
+        void resultListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            if (!_viewModel.IsLoading && resultListBox.ItemsSource != null && resultListBox.ItemsSource.Count >= _offsetKnob)
+            {
+                if (e.ItemKind == LongListSelectorItemKind.Item)
+                {
+                    if ((e.Container.Content as CommentItem).Equals(resultListBox.ItemsSource[resultListBox.ItemsSource.Count - _offsetKnob]))
+                    {
+                        Debug.WriteLine("Searching for {0}", _pageNumber);
+                        _viewModel.LoadPage(youtubeItem.CommentsLink, _pageNumber++);
+                    }
+                }
+            }
+        }
                
 		protected override void OnBackKeyPress(CancelEventArgs e)
 		{
@@ -36,7 +71,6 @@ namespace MyYouTube
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             YouTube.CancelPlay();
-            Model.IsLoading = false;
         }
 
 		private void OnPlay(object sender, RoutedEventArgs args)
@@ -51,14 +85,12 @@ namespace MyYouTube
 
         private void YoutubePageLoaded(object sender, RoutedEventArgs e)
         {
-            if (PhoneApplicationService.Current.State["YoutubeItem"] != null)
+            if (youtubeItem != null)
             {
-                var youtubeItem = PhoneApplicationService.Current.State["YoutubeItem"] as YoutubeItem;
                 txtTitle.Text = "Title: " + youtubeItem.Title;
-                txtViewCount.Text = "Views: " + youtubeItem.ViewCount;
+                txtViewCount.Text = youtubeItem.ViewCount;
             }
             youTubePlayer.YouTubeID = this.NavigationContext.QueryString["VideoId"].ToString();
-            Model.IsLoading = true;                 
         }
 
         private void btnLowQuality_Click(object sender, RoutedEventArgs e)

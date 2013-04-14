@@ -4,7 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyYouTube
+/* © Ranjan Dailata [2013]
+ * All Rights Reserved
+ * No part of this sourcecode or any of its contents may be reproduced, copied, modified or adapted, without the prior written consent of the author, 
+ * unless otherwise indicated for stand-alone materials.
+*/
+
+namespace MyTube
 {
     public class YoutubeItem : ModelBase
     {
@@ -60,13 +66,26 @@ namespace MyYouTube
         private string _viewCount;
         public string ViewCount
         {
-            get { return _viewCount; }
+            get { return "Views: "+ _viewCount; }
             set
             {
                 if (_viewCount == value)
                     return;
                 _viewCount = value;
                 NotifyPropertyChanged("ViewCount");
+            }
+        }
+
+        private string _commentsLink;
+        public string CommentsLink
+        {
+            get { return _commentsLink; }
+            set
+            {
+                if (_commentsLink == value)
+                    return;
+                _commentsLink = value;
+                NotifyPropertyChanged("CommentsLink");
             }
         }
     }

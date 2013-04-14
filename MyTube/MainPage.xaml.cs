@@ -13,7 +13,13 @@ using System.ComponentModel;
 using Coding4Fun.Phone.Controls;
 using System.IO.IsolatedStorage;
 
-namespace MyYouTube
+/* © Ranjan Dailata [2013]
+ * All Rights Reserved
+ * No part of this sourcecode or any of its contents may be reproduced, copied, modified or adapted, without the prior written consent of the author, 
+ * unless otherwise indicated for stand-alone materials.
+*/
+
+namespace MyTube
 {
     public partial class MainPage : PhoneApplicationPage
     {
@@ -60,21 +66,26 @@ namespace MyYouTube
                 XNamespace media = "http://search.yahoo.com/mrss/";
                 XNamespace gd = "http://schemas.google.com/g/2005";
                 XNamespace yt = "http://gdata.youtube.com/schemas/2007";
-
+                string commentsLink = "";
+              
                 var items = xdoc.Root.Descendants("item").AsEnumerable();
                 foreach(var item in items){
                     var grp = item.Descendants(media + "group");
                     var ytNode = item.Descendants(yt + "statistics");
+                    var comments = item.Descendants(gd + "comments");
+                    if (comments.Count() > 0 )
+                        commentsLink = comments.Descendants(gd + "feedLink").Attributes("href").First().Value;
 
                     youtubeItemsList.Add(new YoutubeItem
                     {
-                        Title = (string)grp.Elements(media + "title").First().Value,
-                        PlayerUrl = (string)grp.Elements(media + "player").First().Attribute("url").Value ,
+                        Title = grp.Elements(media + "title").First().Value,
+                        PlayerUrl = grp.Elements(media + "player").First().Attribute("url").Value ,
                         Description = grp.First().Value,
                         ThumbNailUrl = new Uri(grp.Elements(media + "thumbnail")
                             .Select(u => (string)u.Attribute("url"))
                             .First()),
-                        ViewCount = (string)ytNode.Attributes("viewCount").First().Value 
+                        ViewCount = ytNode.Attributes("viewCount").First().Value,
+                        CommentsLink = commentsLink
                     });
                 }
                 listBox.ItemsSource  = youtubeItemsList;

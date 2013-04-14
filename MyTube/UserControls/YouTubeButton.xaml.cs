@@ -7,7 +7,13 @@ using MyToolkit.Media;
 using MyToolkit.Multimedia;
 using MyToolkit.Networking;
 
-namespace MyYouTube
+/* © Ranjan Dailata [2013]
+ * All Rights Reserved
+ * No part of this sourcecode or any of its contents may be reproduced, copied, modified or adapted, without the prior written consent of the author, 
+ * unless otherwise indicated for stand-alone materials.
+*/
+
+namespace MyTube
 {
 	/// <summary>
 	/// Add YouTube play logic to Click event (see http://mytoolkit.codeplex.com/wikipage?title=YouTube)

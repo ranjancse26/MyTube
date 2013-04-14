@@ -1,30 +1,72 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.Xml.Linq;
-using System.IO;
-using System.Collections.ObjectModel;
 using MyToolkit.Multimedia;
 using System.ComponentModel;
 using Coding4Fun.Phone.Controls;
-using System.IO.IsolatedStorage;
+using System.Diagnostics;
+using Microsoft.Devices;
+using System.Windows.Data;
 
-namespace MyYouTube
+/* © Ranjan Dailata [2013]
+ * All Rights Reserved
+ * No part of this sourcecode or any of its contents may be reproduced, copied, modified or adapted, without the prior written consent of the author, 
+ * unless otherwise indicated for stand-alone materials.
+*/
+
+namespace MyTube
 {
     public partial class SearchPage : PhoneApplicationPage
     {
+        int _pageNumber = 1;
+        string _searchTerm = "";
+        YouTubePageViewModel _viewModel;
+        int _offsetKnob = 7;
+
         public SearchPage()
         {
             InitializeComponent();
+            _viewModel = (YouTubePageViewModel)Resources["viewModel"];
+            resultListBox.ItemRealized += resultListBox_ItemRealized;
+        }
+
+        void resultListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            if (!_viewModel.IsLoading && resultListBox.ItemsSource != null && resultListBox.ItemsSource.Count >= _offsetKnob)
+            {
+                if (e.ItemKind == LongListSelectorItemKind.Item)
+                {
+                    if ((e.Container.Content as YoutubeItem).Equals(resultListBox.ItemsSource[resultListBox.ItemsSource.Count - _offsetKnob]))
+                    {
+                        Debug.WriteLine("Searching for {0}", _pageNumber);
+                        _viewModel.LoadPage(_searchTerm, _pageNumber++);
+                    }
+                }
+            }
         }
 
         private void SearchPageLoaded(object sender, RoutedEventArgs e)
         {
             txtSearch.Text = "";
+            var progressIndicator = SystemTray.ProgressIndicator;
+            if (progressIndicator != null)
+            {
+                return;
+            }
+
+            progressIndicator = new ProgressIndicator();
+
+            SystemTray.SetProgressIndicator(this, progressIndicator);
+
+            Binding binding = new Binding("IsLoading") { Source = _viewModel };
+            BindingOperations.SetBinding(progressIndicator, ProgressIndicator.IsVisibleProperty, binding);
+
+            binding = new Binding("IsLoading") { Source = _viewModel };
+            BindingOperations.SetBinding(progressIndicator, ProgressIndicator.IsIndeterminateProperty, binding);
+
+            progressIndicator.Text = "Loading...";
         }
 
         protected override void OnBackKeyPress(CancelEventArgs e)
@@ -32,40 +74,7 @@ namespace MyYouTube
             if (YouTube.CancelPlay())
                 e.Cancel = true;
             base.OnBackKeyPress(e);
-        }
-
-        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Result != null)
-            {
-                var youtubeItemsList = new ObservableCollection<YoutubeItem>();
-
-                TextReader tr = new StringReader(e.Result );
-                XDocument xdoc = XDocument.Load(tr);
-                XNamespace xmlns = "http://www.w3.org/2005/Atom";
-                XNamespace media = "http://search.yahoo.com/mrss/";
-                XNamespace gd = "http://schemas.google.com/g/2005";
-                XNamespace yt = "http://gdata.youtube.com/schemas/2007";
-
-                var items = xdoc.Root.Descendants("item").AsEnumerable();
-                foreach(var item in items){
-                    var grp = item.Descendants(media + "group");
-                    var ytNode = item.Descendants(yt + "statistics");
-
-                    youtubeItemsList.Add(new YoutubeItem
-                    {
-                        Title = (string)grp.Elements(media + "title").First().Value,
-                        PlayerUrl = (string)grp.Elements(media + "player").First().Attribute("url").Value ,
-                        Description = grp.First().Value,
-                        ThumbNailUrl = new Uri(grp.Elements(media + "thumbnail")
-                            .Select(u => (string)u.Attribute("url"))
-                            .First()),
-                        ViewCount = (string)ytNode.Attributes("viewCount").First().Value 
-                    });
-                }
-                listBox.ItemsSource  = youtubeItemsList;
-            }
-        }
+        }       
 
         private void ImageClick(object sender, RoutedEventArgs e)
         {
@@ -80,21 +89,19 @@ namespace MyYouTube
 
         private void Search(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-                int count = int.Parse(settings["SearchResultsCount"].ToString());
+            _searchTerm = txtSearch.Text.Trim();
 
-                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/videos?max-results={0}&alt=rss&q={1}", count.ToString(), txtSearch.Text.Trim());
-                WebClient webClient = new WebClient();
-                webClient.AllowReadStreamBuffering = true;
-                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-                webClient.DownloadStringAsync(new Uri(requestUrl));
-            }
-            catch (Exception ex)
+            if (String.IsNullOrEmpty(_searchTerm))
             {
-                MessageBox.Show(ex.Message);
+                VibrateController.Default.Start(TimeSpan.FromMilliseconds(200));
+                return;
             }
+
+            this.Focus();
+
+            _pageNumber = 1;
+
+            _viewModel.LoadPage(_searchTerm, _pageNumber++);
         }
 
         private void AboutApplicationBarIconButton_Click(object sender, EventArgs e)

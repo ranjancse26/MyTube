@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="MyYouTube.SearchPage"
+    x:Class="MyTube.SearchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -12,9 +12,30 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    xmlns:usercontrols="clr-namespace:MyYouTube"
-    shell:SystemTray.IsVisible="False" Loaded="SearchPageLoaded">  
+    xmlns:viewModels="clr-namespace:MyTube"
+    xmlns:usercontrols="clr-namespace:MyTube"
+    shell:SystemTray.IsVisible="False" Loaded="SearchPageLoaded">
 
+    <phone:PhoneApplicationPage.Resources>
+        <viewModels:YouTubePageViewModel x:Key="viewModel" />
+        <DataTemplate x:Key="ResultItemTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Margin="10,0,0,0"  />
+                <TextBlock Text="{Binding ViewCount}" TextWrapping="Wrap" Margin="10,0,0,0"  />
+
+                <Button Tag="{Binding PlayerUrl}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ImageClick" >
+                    <StackPanel>
+                        <Image Height="300" Width="500">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding ThumbNailUrl}" />
+                            </Image.Source>
+                        </Image>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" >
         <Grid.RowDefinitions>
@@ -27,27 +48,14 @@
         <StackPanel Grid.Row="0" >
             <Image Height="109" Source="/Images/MyTube-Logo2.png" Margin="0,0,131,0"/>
         </StackPanel>
-       
-        <ListBox Grid.Row="2" x:Name="listBox" Margin="0,10,0,-10">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Title}" TextWrapping="Wrap" Margin="10,0,0,0"  />
-                        <Button Tag="{Binding PlayerUrl}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ImageClick" >
-                            <StackPanel>
-                                <Image Height="300" Width="500">
-                                    <Image.Source>
-                                        <BitmapImage UriSource="{Binding ThumbNailUrl}" />
-                                    </Image.Source>
-                                </Image>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        
+        <phone:LongListSelector Name="resultListBox" Grid.Row="2"
+                 DataContext="{StaticResource viewModel}"
+                 ItemTemplate="{StaticResource ResultItemTemplate}"                 
+                 ItemsSource="{Binding YouTubeItemCollection}"                               
+                 ListFooter="{Binding}"/>
 
-        <TextBox Background="#FFF6F9F9" x:Name="txtSearch" Height="79" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Margin="0,19,48,0" BorderBrush="#BF0A0909" Foreground="#FF403B3B" Grid.Row="1"/>
+        <TextBox Background="#FFF6F9F9" x:Name="txtSearch" InputScope="Search" Height="79" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Margin="0,19,48,0" BorderBrush="#BF0A0909" Foreground="#FF403B3B" Grid.Row="1"/>
         <Button x:Name="btnSearch" Content="" VerticalAlignment="Top" Height="79"  Margin="409,19,-13,0" Click="Search" RenderTransformOrigin="1.139,0.486" BorderThickness="0" Grid.Row="1" >
             <Button.Background>
                 <ImageBrush ImageSource="/Images/search.png" />
