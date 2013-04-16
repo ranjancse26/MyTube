@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{48b2c5c0-75d7-4f5e-bbb2-408c77c2b251}" Title="MyTube" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="MyYouTube author" Description="MyTube is a Win 8 Youtube Player" Publisher="MyYouTube" PublisherID="{ef8a699b-4813-4491-9b5d-b459b9ef3538}">
+  <App xmlns="" ProductID="{fafc7e71-243d-49fc-a77a-d3b21b3aa5cf}" Title="MyTube" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Ranjan Dailata" Description="Youtube Player for Windows Phone" Publisher="Ranjan" PublisherID="{4e2a1a57-007f-4940-9fe5-37f92f5a27a2}">
     <IconPath IsRelative="true" IsResource="false">Images\Youtube.jpg</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -25,7 +25,7 @@
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="MyYouTubeToken" TaskName="_default">
+      <PrimaryToken TokenID="MyTubeToken" TaskName="_default">
         <TemplateFlip>
           <SmallImageURI IsResource="false" IsRelative="true">Images\Youtube.jpg</SmallImageURI>
           <Count>0</Count>

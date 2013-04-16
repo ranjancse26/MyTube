@@ -114,8 +114,10 @@ namespace MyTube
             {
                 txtTitle.Text = "Title: " + youtubeItem.Title;
                 txtViewCount.Text = youtubeItem.ViewCount;
+                likeTextBlock.Text = youtubeItem._numberOfLikes;
+                dislikeTextBlock.Text = youtubeItem._numberOfDisLikes;
             }
-            youTubePlayer.YouTubeID = this.NavigationContext.QueryString["VideoId"].ToString();
+            youTubePlayer.YouTubeID = this.NavigationContext.QueryString["VideoId"].ToString();           
         }
 
         private void btnLowQuality_Click(object sender, RoutedEventArgs e)

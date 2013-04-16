@@ -11,11 +11,11 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
-	<Button x:Name="Button" toolkit:TiltEffect.IsTiltEnabled="True" Margin="0" BorderThickness="1">
+	<Button x:Name="Button" toolkit:TiltEffect.IsTiltEnabled="True" BorderThickness="1" RenderTransformOrigin="1.163,0.454" Margin="0,0,10,0">
 		<Grid Background="{StaticResource PhoneInactiveBrush}">
 			<Image Stretch="UniformToFill" x:Name="Image" Opacity="0.65" RenderTransformOrigin="0.573,0" />
 			<Image x:Name="PlayImage" VerticalAlignment="Center" HorizontalAlignment="Center" />
-		</Grid>
+        </Grid>
     </Button>
       
 </UserControl>

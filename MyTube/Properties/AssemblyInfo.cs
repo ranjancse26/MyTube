@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MyYouTube")]
+[assembly: AssemblyTitle("MyTube")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MyYouTube")]
+[assembly: AssemblyProduct("MyTube")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ce86d562-5d23-4a24-90f2-0c298777ed18")]
+[assembly: Guid("9e27b972-0825-4386-ba17-63c695262c3d")]
 
 // Version information for an assembly consists of the following four values:
 //

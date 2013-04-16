@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
              
         <UI:ProgressIndicatorProxy IsVisible="{Binding IsLoading}" IsIndeterminate="True" />
-        <usercontrols:YouTubeButton x:Name="youTubePlayer" Margin="0,53,85,0" Click="OnPlay" Height="290" VerticalAlignment="Top" Grid.RowSpan="3" Grid.Row="1" />
+        <usercontrols:YouTubeButton x:Name="youTubePlayer" Margin="0,53,100,0" Click="OnPlay" Height="290" VerticalAlignment="Top" Grid.RowSpan="3" Grid.Row="1" />
         <StackPanel Grid.Row="0"  >
             <Image Height="109" Source="/Images/MyTube-Logo2.png"/>
         </StackPanel>
@@ -57,5 +57,9 @@
                  ItemTemplate="{StaticResource ResultItemTemplate}"       
                  ItemsSource="{Binding CommentsItemCollection}"                               
                  ListFooter="{Binding}" Margin="10,72,10,0"/>
+        <Image x:Name="likeImage" HorizontalAlignment="Left" Height="65" Margin="386,63,0,0" Grid.Row="2" VerticalAlignment="Top" Width="69" Source="/Images/Like.jpg"/>
+        <Image x:Name="DislikeImage" HorizontalAlignment="Left" Height="65" Margin="386,23,0,0" Grid.Row="3" VerticalAlignment="Top" Width="81" Source="/Images/Dislike.png"/>
+        <TextBlock x:Name="dislikeTextBlock" HorizontalAlignment="Left" Margin="386,108,0,0" Grid.Row="3" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock x:Name="likeTextBlock" HorizontalAlignment="Left" Margin="385,10,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
     </Grid>
 </phone:PhoneApplicationPage>

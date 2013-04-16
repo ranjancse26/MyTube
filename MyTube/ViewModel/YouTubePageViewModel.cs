@@ -102,7 +102,7 @@ namespace MyTube
             IsLoading = true;
             try
             {
-                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/videos?start-index={0}&alt=rss&q={1}", pageNumber, searchTerm);
+                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/videos?start-index={0}&alt=rss&q={1}&v=2", pageNumber, searchTerm);
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(String.Format(requestUrl, searchTerm, pageNumber)));
                 request.BeginGetResponse(new AsyncCallback(ReadCallback), request); 
             }
@@ -132,6 +132,7 @@ namespace MyTube
                     string commentsLink = "";
 
                     var items = xdoc.Root.Descendants("item").AsEnumerable();
+                    YoutubeItem youTubeItem;
 
                     Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
@@ -139,19 +140,27 @@ namespace MyTube
                         {
                             var grp = item.Descendants(media + "group");
                             var ytNode = item.Descendants(yt + "statistics");
+                            var ytRatingNode = item.Descendants(yt + "rating");
                             var comments = item.Descendants(gd + "comments");
                             if (comments.Count() > 0)
                                 commentsLink = comments.Descendants(gd + "feedLink").Attributes("href").First().Value;
 
-                            YouTubeItemCollection.Add(new YoutubeItem
+                            youTubeItem = new YoutubeItem
                             {
                                 Title = grp.Elements(media + "title").First().Value,
                                 PlayerUrl = grp.Elements(media + "player").First().Attribute("url").Value,
                                 Description = grp.First().Value,
                                 ThumbNailUrl = new Uri(grp.Elements(media + "thumbnail").Select(u => (string)u.Attribute("url")).First()),
-                                ViewCount = ytNode.Attributes("viewCount").First().Value,
+                                ViewCount = ytNode.Attributes("viewCount").First().Value,                              
                                 CommentsLink = commentsLink
-                            });
+                            };
+
+                            if (ytRatingNode.Count() > 0)
+                            {
+                                youTubeItem.NumberOfLikes = ytRatingNode.Attributes("numLikes").First().Value;
+                                youTubeItem.NumberOfDisLikes = ytRatingNode.Attributes("numDislikes").First().Value;
+                            }
+                            YouTubeItemCollection.Add(youTubeItem);
                         }
                         IsLoading = false;
                     });

@@ -60,7 +60,7 @@ namespace MyTube
                 IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
                 int count = int.Parse(settings["SearchResultsCount"].ToString());
 
-                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?max-results={0}&alt=rss", count.ToString());
+                var requestUrl = string.Format("http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?max-results={0}&alt=rss&v=2", count.ToString());
                 WebClient webClient = new WebClient();
                 webClient.AllowReadStreamBuffering = true;
                 webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
@@ -92,26 +92,33 @@ namespace MyTube
                 XNamespace gd = "http://schemas.google.com/g/2005";
                 XNamespace yt = "http://gdata.youtube.com/schemas/2007";
                 string commentsLink = "";
+                YoutubeItem youTubeItem;
               
                 var items = xdoc.Root.Descendants("item").AsEnumerable();
                 foreach(var item in items){
                     var grp = item.Descendants(media + "group");
                     var ytNode = item.Descendants(yt + "statistics");
                     var comments = item.Descendants(gd + "comments");
+                    var ytRatingNode = item.Descendants(yt + "rating");
                     if (comments.Count() > 0 )
                         commentsLink = comments.Descendants(gd + "feedLink").Attributes("href").First().Value;
 
-                    youtubeItemsList.Add(new YoutubeItem
+                    youTubeItem = new YoutubeItem
                     {
                         Title = grp.Elements(media + "title").First().Value,
-                        PlayerUrl = grp.Elements(media + "player").First().Attribute("url").Value ,
+                        PlayerUrl = grp.Elements(media + "player").First().Attribute("url").Value,
                         Description = grp.First().Value,
-                        ThumbNailUrl = new Uri(grp.Elements(media + "thumbnail")
-                            .Select(u => (string)u.Attribute("url"))
-                            .First()),
+                        ThumbNailUrl = new Uri(grp.Elements(media + "thumbnail").Select(u => (string)u.Attribute("url")).First()),
                         ViewCount = ytNode.Attributes("viewCount").First().Value,
                         CommentsLink = commentsLink
-                    });
+                    };
+
+                    if (ytRatingNode.Count() > 0)
+                    {
+                        youTubeItem.NumberOfLikes = ytRatingNode.Attributes("numLikes").First().Value;
+                        youTubeItem.NumberOfDisLikes = ytRatingNode.Attributes("numDislikes").First().Value;
+                    }
+                    youtubeItemsList.Add(youTubeItem);
                 }
                 listBox.ItemsSource  = youtubeItemsList;
             }

@@ -81,7 +81,7 @@ namespace MyTube
             IsLoading = true;
             try
             {
-                var requestUrl = string.Format(string.Format("{0}?start-index={1}&alt=rss", commentsUrl, pageNumber));
+                var requestUrl = string.Format(string.Format("{0}&start-index={1}&alt=rss", commentsUrl, pageNumber));
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(requestUrl));
                 request.BeginGetResponse(new AsyncCallback(ReadCallback), request); 
             }
@@ -98,6 +98,8 @@ namespace MyTube
         {
             try
             {
+                while (!asynchronousResult.IsCompleted) { }
+
                 HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
                 HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))

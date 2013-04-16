@@ -113,5 +113,31 @@ namespace MyTube
                 NotifyPropertyChanged("CommentsLink");
             }
         }
+
+        public string _numberOfLikes;
+        public string NumberOfLikes
+        {
+            get { return _numberOfLikes; }
+            set
+            {
+                if (_numberOfLikes == value)
+                    return;
+                _numberOfLikes = value;
+                NotifyPropertyChanged("NumberOfLikes");
+            }
+        }
+
+        public string _numberOfDisLikes;
+        public string NumberOfDisLikes
+        {
+            get { return _numberOfDisLikes; }
+            set
+            {
+                if (_numberOfDisLikes == value)
+                    return;
+                _numberOfDisLikes = value;
+                NotifyPropertyChanged("NumberOfDisLikes");
+            }
+        }
     }
 }
